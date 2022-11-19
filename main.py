@@ -1,5 +1,5 @@
 from db import mysql_application
-
+sql = mysql_application()
 def main():
     print('='*20)
     print("(0) 종료")
@@ -10,22 +10,26 @@ def main():
     print('='*20)
     print("원하는 번호를 입력 하시오")
     num = int(input())
-    sql = mysql_application()
+   
 
     if num == 0:
         print("끝")
     elif num == 1:
         sql.insert_data()
+        main()
     elif num == 2:
         print("사용자 입력:")
         str1 = input()
         sql.search_title(str1)
+        main()
     elif num == 3 :
         print("사용자 입력:")
         str1 = input()
         sql.search_total_num(str1)
+        main()
     elif num == 4 :
         print("사용자 입력:")
         str1,str2 = map(str,input().split())
         sql.search_date(str1,str2)
+        main()
 main()  
