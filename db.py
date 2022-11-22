@@ -34,8 +34,9 @@ class mysql_application():
             primary key (id));
     """
         try:
-            print("테이블이 없습니다. 새로 생성합니다.")
+          
             self.curs.execute(sql)
+            print("테이블이 없습니다. 새로 생성합니다.")
             self.conn.commit
         except:
             print("테이블이 존재합니다. 기존 테이블을 사용합니다.")
@@ -44,18 +45,21 @@ class mysql_application():
     def insert_data(self):
         pwd = os.getcwd()
         sql = """INSERT INTO movie values(%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-        with open(pwd+"/movie_data.TXT",'r',encoding='cp949') as f:
-            read_data = f.readlines()
+        try:
+            with open(pwd+"/movie_data.TXT",'r',encoding='cp949') as f:
+                read_data = f.readlines()
 
-        for data in read_data:
-            data = data.split('|')
-            data = data[1:]
-            data[-1] = data[-1].replace('\n','')
-            data[5] = data[5]
-            data[7] = data[7]
-            self.curs.execute(sql,(data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8]))
-        self.conn.commit()
-        return 
+            for data in read_data:
+                data = data.split('|')
+                data = data[1:]
+                data[-1] = data[-1].replace('\n','')
+                data[5] = data[5]
+                data[7] = data[7]
+                self.curs.execute(sql,(data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8]))
+            self.conn.commit()
+            return 
+        except:
+            print("데이터가 이미 존재합니다.")
           
     def search_title(self,str):
       
