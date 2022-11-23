@@ -57,7 +57,7 @@ class mysql_application():
                 data[7] = data[7]
                 self.curs.execute(sql,(data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8]))
             self.conn.commit()
-            return 
+            print("데이터가 정상적으로 입력되었습니다.")
         except:
             print("데이터가 이미 존재합니다.")
           
@@ -66,28 +66,40 @@ class mysql_application():
         sql = "select * from movie where title like %s"
         try:
             self.curs.execute(sql,'%'+str+'%')
-            for f in self.curs.fetchall():
-                print(f)
+            f = self.curs.fetchall()
+            
+            for x in f:
+                print(x)
+                
+            return f
         except:
-            print("검색 결과가 없습니다.")
+            print("잘못된 입력입니다.")
         
     def search_total_num(self,total_num):
         sql = """select * from movie where totalnum > %s"""
         try:
             self.curs.execute(sql,total_num)
-            for f in self.curs.fetchall():
-                print(f)
+            list1 = []
+            f = self.curs.fetchall()
+            for x in f:
+                print(x)
+               
+            return f
         except:
-            print("검색 결과가 없습니다.")
+            print("잘못된 입력입니다.")
 
     def search_date(self,start_date,end_date):
         sql="""select * from movie where between %s and %s"""
         try:
-            self.curs.execute(sql,start_date,end_date)
-            for f in self.curs.fetchall():
-                print(f)
+            self.curs.execute(sql,[start_date,end_date])
+            list1 = []
+            f = self.curs.fetchall()
+            for x in f:
+                print(x)
+                
+            return f
         except:
-            print("검색 결과가 없습니다.")
+            print("잘못된 입력입니다.")
         
     
     def end_application(self):
