@@ -4,21 +4,25 @@ from db import mysql_application
 # str1,str2 = map(str,input().split())
 def on_change_title(event):
         print_records = " "
+        idx = 0
         records = sql.search_title(event.widget.get())
         for rec in records:
                 print_records += str(rec) + '\n'
                 rec_label = Label(tk,text=rec)
-                rec_label.grid(row=4,column=0,columnspan=10)
+                rec_label.grid(row=4+idx,column=0,columnspan=10)
+                idx += 1
 def on_change_total_num(event):
         print_records = ""
-        records = sql.search_title(event.widget.get())
+        idx = 0
+        records = sql.search_total_num(event.widget.get())
         for rec in records:
                 print_records += str(rec) + '\n'
                 rec_label = Label(tk,text=rec)
-                rec_label.grid(row=4,column=0,columnspan=2)
+                rec_label.grid(row=4+idx,column=0,columnspan=2)
+                idx += 1
 def on_change_date(event):
         print_records = ""
-        records = sql.search_title(event.widget.get())
+        records = sql.search_date(event.widget.get())
         for rec in records:
                 print_records += str(rec) + '\n'
                 rec_label = Label(tk,text=rec)

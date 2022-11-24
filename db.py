@@ -53,8 +53,6 @@ class mysql_application():
                 data = data.split('|')
                 data = data[1:]
                 data[-1] = data[-1].replace('\n','')
-                data[5] = data[5]
-                data[7] = data[7]
                 self.curs.execute(sql,(data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8]))
             self.conn.commit()
             print("데이터가 정상적으로 입력되었습니다.")
@@ -89,7 +87,7 @@ class mysql_application():
             print("잘못된 입력입니다.")
 
     def search_date(self,start_date,end_date):
-        sql="""select * from movie where between %s and %s"""
+        sql="""select * from movie where releasedate between %s and %s"""
         try:
             self.curs.execute(sql,[start_date,end_date])
             list1 = []
