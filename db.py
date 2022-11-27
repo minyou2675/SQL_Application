@@ -1,6 +1,7 @@
 import pymysql.cursors
 import csv
 import os
+import time
 
 #mysql 연결
 class mysql_application():
@@ -46,18 +47,31 @@ class mysql_application():
         pwd = os.getcwd()
         sql = """INSERT INTO movie values(%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
         try:
+            print("데이터를 입력합니다.")
             with open(pwd+"/movie_data.TXT",'r',encoding='cp949') as f:
                 read_data = f.readlines()
 
             for data in read_data:
                 data = data.split('|')
                 data = data[1:]
+               
                 data[-1] = data[-1].replace('\n','')
                 self.curs.execute(sql,(data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8]))
             self.conn.commit()
             print("데이터가 정상적으로 입력되었습니다.")
         except:
-            print("데이터가 이미 존재합니다.")
+            print("데이터가 이미 존재합니다. 재생성합니다.")
+            self.curs.execute("Truncate movie")
+            with open(pwd+"/movie_data.TXT",'r',encoding='cp949') as f:
+                read_data = f.readlines()
+
+            for data in read_data:
+                data = data.split('|')
+                data = data[1:]
+          
+                data[-1] = data[-1].replace('\n','')
+                self.curs.execute(sql,(data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8]))
+            self.conn.commit()
           
     def search_title(self,str):
       
@@ -90,7 +104,7 @@ class mysql_application():
         sql="""select * from movie where releasedate between %s and %s"""
         try:
             self.curs.execute(sql,[start_date,end_date])
-            list1 = []
+            
             f = self.curs.fetchall()
             for x in f:
                 print(x)
